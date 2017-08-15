@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,7 +22,8 @@ public class Practice02StaticLayoutView extends View {
         super(context, attrs);
     }
 
-    public Practice02StaticLayoutView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public Practice02StaticLayoutView(Context context, @Nullable AttributeSet attrs,
+        int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -28,12 +31,17 @@ public class Practice02StaticLayoutView extends View {
         textPaint.setTextSize(60);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         // 使用 StaticLayout 代替 Canvas.drawText() 来绘制文字，
         // 以绘制出带有换行的文字
+        canvas.save();
         canvas.drawText(text, 50, 100, textPaint);
+        canvas.translate(50,200);
+        StaticLayout staticLayout =
+            new StaticLayout(text, textPaint, 600, Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
+        staticLayout.draw(canvas);
+        canvas.restore();
     }
 }
